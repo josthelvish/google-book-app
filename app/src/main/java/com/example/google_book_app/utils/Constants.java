@@ -9,6 +9,7 @@ public final class Constants {
 
     /** Constants for network call */
     public static final String QUERY = "android";
+    public static final String PROJECTION = "android";
     public static final int PAGE = 0;
     public static final String API_KEY = BuildConfig.API_KEY;
 
@@ -18,4 +19,6 @@ public final class Constants {
     /** API Status code for invalid API key or Authentication failed */
     public static final int RESPONSE_CODE_API_STATUS = 401;
 
+    /** Room Database name **/
+    public static final String DATABASE_NAME = "books";
 }
