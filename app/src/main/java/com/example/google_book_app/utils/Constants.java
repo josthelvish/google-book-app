@@ -27,4 +27,6 @@ public final class Constants {
     public static final int PREVIOUS_PAGE_KEY_ONE = 1;
     public static final int NEXT_PAGE_KEY_TWO = 2;
     public static final int PAGE_ONE = 1;
+
+    public static final int REQUEST_CODE_DIALOG = 0;
 }

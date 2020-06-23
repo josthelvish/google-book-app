@@ -1,3 +1,14 @@
 <resources>
-    <string name="app_name">google-book-app</string>
+    <string name="app_name">AndroidBooks</string>
+
+    <!--region Dialog buttons text -->
+    <string name="cancel">Cancel</string>
+    <string name="go_to_settings">Go to settings</string>
+    <!-- endregion-->
+
+    <!--region Network-->
+    <string name="no_network_title">No Network Available</string>
+    <string name="no_network_message">Network connection undetected on this device. Please check your mobile data or Wi-Fi.</string>
+    <!--endregion-->
+
 </resources>
