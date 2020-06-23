@@ -16,6 +16,7 @@ import com.example.google_book_app.domain.Book;
 import com.example.google_book_app.network.BookResponse;
 import com.example.google_book_app.network.GoogleBookAPI;
 import com.example.google_book_app.network.RetrofitServiceController;
+import com.example.google_book_app.ui.main.MainActivityViewModel;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -32,6 +33,8 @@ import static com.example.google_book_app.utils.Constants.REQUEST_CODE_DIALOG;
 import static com.example.google_book_app.utils.Constants.RESPONSE_CODE_API_STATUS;
 
 public class MainActivity extends AppCompatActivity {
+
+    private MainActivityViewModel mMainViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
