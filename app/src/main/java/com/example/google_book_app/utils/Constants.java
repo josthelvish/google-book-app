@@ -9,8 +9,9 @@ public final class Constants {
 
     /** Constants for network call */
     public static final String QUERY = "android";
-    public static final String PROJECTION = "android";
+    public static final String PROJECTION = "lite";
     public static final int PAGE = 0;
+    public static final int MAX_RESULTS = 20;
     public static final String API_KEY = BuildConfig.API_KEY;
 
     /** Number of threads for the pool*/
@@ -21,4 +22,9 @@ public final class Constants {
 
     /** Room Database name **/
     public static final String DATABASE_NAME = "books";
+
+    /** Data Source Page control **/
+    public static final int PREVIOUS_PAGE_KEY_ONE = 1;
+    public static final int NEXT_PAGE_KEY_TWO = 2;
+    public static final int PAGE_ONE = 1;
 }
