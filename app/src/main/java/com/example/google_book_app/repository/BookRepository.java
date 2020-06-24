@@ -1,8 +1,13 @@
 package com.example.google_book_app.repository;
 
+import androidx.lifecycle.LiveData;
+
 import com.example.google_book_app.database.BookDao;
+import com.example.google_book_app.database.BookEntry;
 import com.example.google_book_app.network.GoogleBookAPI;
 import com.example.google_book_app.utils.AppThreadExecutors;
+
+import java.util.List;
 
 import timber.log.Timber;
 
@@ -33,4 +38,9 @@ public class BookRepository {
         }
         return sInstance;
     }
+
+    public LiveData<List<BookEntry>> getFavoriteBooks() {
+        return null;
+    }
+
 }

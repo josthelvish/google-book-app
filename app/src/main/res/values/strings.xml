@@ -9,6 +9,29 @@
     <!--region Network-->
     <string name="no_network_title">No Network Available</string>
     <string name="no_network_message">Network connection undetected on this device. Please check your mobile data or Wi-Fi.</string>
+    <string name="thumbnail_description">Book cover image thumbnail</string>
+    <!--endregion-->
+
+    <!--region Application Preferences-->
+    <string name="pref_key_filter_by">filter_by</string>
+    <string name="pref_filter_by_default">all</string>
+    <string name="pref_filter_by_favorites" translatable="false">favorites</string>
+    <string name="pref_filter_by_label">Filter By</string>
+    <string name="pref_filter_by_label_all">All Android</string>
+    <string name="pref_filter_by_label_favorites">Favorites</string>
+    <!--endregion-->
+
+    <string name="empty_favorites_message">It seems you haven\'t selected any favorite Books. To do so
+        you can tap the heart button on the Book details view.</string>
+
+    <!--region Favorite messages-->
+    <string name="snackbar_favorite_added">Added to your favorites</string>
+    <string name="snackbar_favorite_removed">Removed from your favorites</string>
+    <string name="snackbar_offline">Please check your mobile data or Wi-Fi</string>
+    <!--endregion-->
+
+    <!--region Swipe Refresh messages-->
+    <string name="snackbar_updated">Book list updated</string>
     <!--endregion-->
 
 </resources>

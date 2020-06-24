@@ -7,10 +7,11 @@ import retrofit2.http.Query;
 public interface GoogleBookAPI {
 
     @GET("volumes/")
-    Call<BookResponse> getBooks(
+    Call<BookResponseDTO> getBooks(
             @Query("key") String apiKey,
             @Query("q") String query,
             @Query("startIndex") int page,
-            @Query("maxResults") int maxResults
+            @Query("maxResults") int maxResults,
+            @Query("projection") String projection
     );
 }
