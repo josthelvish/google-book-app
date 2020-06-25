@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="padding_view">16dp</dimen>
+    <dimen name="padding_view_small">8dp</dimen>
     <dimen name="padding_view_large">48dp</dimen>
-
     <dimen name="padding_small">8dp</dimen>
+
+    <dimen name="margin_activity">16dp</dimen>
 
     <!--region CardView-->
     <dimen name="card_corner_radius">0dp</dimen>
@@ -11,6 +13,7 @@
     <dimen name="card_max_elevation">1dp</dimen>
     <dimen name="card_content_padding_zero">0dp</dimen>
     <dimen name="padding_title_text">4dp</dimen>
+    <dimen name="margin_card_view">5dp</dimen>
     <!--endregion-->
 
 </resources>

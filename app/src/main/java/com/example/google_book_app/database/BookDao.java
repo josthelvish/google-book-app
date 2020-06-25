@@ -21,5 +21,5 @@ public interface BookDao {
     void deleteBook(BookEntry bookEntry);
 
     @Query("SELECT * FROM book WHERE book_id = :bookId")
-    LiveData<BookEntry> loadBookByBookId(int bookId);
+    LiveData<BookEntry> loadBookById(String bookId);
 }

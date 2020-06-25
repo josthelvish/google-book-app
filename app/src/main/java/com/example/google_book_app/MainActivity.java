@@ -1,5 +1,17 @@
 package com.example.google_book_app;
 
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.Bundle;
+import android.os.Parcelable;
+import android.provider.Settings;
+import android.view.View;
+import android.widget.TextView;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,28 +22,16 @@ import androidx.paging.PagedList;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.os.Bundle;
-import android.os.Parcelable;
-import android.provider.Settings;
-import android.view.View;
-import android.widget.TextView;
-
 import com.example.google_book_app.database.BookEntry;
 import com.example.google_book_app.database.BookPreferences;
 import com.example.google_book_app.databinding.ActivityMainBinding;
 import com.example.google_book_app.domain.Book;
+import com.example.google_book_app.ui.SpacingItemDecoration;
+import com.example.google_book_app.ui.detail.DetailActivity;
 import com.example.google_book_app.ui.main.BookPagedListAdapter;
 import com.example.google_book_app.ui.main.FavoriteBookAdapter;
 import com.example.google_book_app.ui.main.MainActivityViewModel;
 import com.example.google_book_app.ui.main.MainViewModelFactory;
-import com.example.google_book_app.ui.SpacingItemDecoration;
 import com.example.google_book_app.utils.DependenciesUtils;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -40,6 +40,7 @@ import java.util.Objects;
 
 import timber.log.Timber;
 
+import static com.example.google_book_app.utils.Constants.EXTRA_BOOK;
 import static com.example.google_book_app.utils.Constants.GRID_INCLUDE_EDGE;
 import static com.example.google_book_app.utils.Constants.GRID_SPACING;
 import static com.example.google_book_app.utils.Constants.GRID_SPAN_COUNT;
@@ -228,6 +229,11 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void onItemClick(Book book) {
-        Timber.e("Book: %s", book.getBuyLink());
+        Bundle b = new Bundle();
+        b.putParcelable(EXTRA_BOOK, book);
+
+        Intent intent = new Intent(MainActivity.this, DetailActivity.class);
+        intent.putExtra(EXTRA_BOOK, b);
+        startActivity(intent);
     }
 }

@@ -63,4 +63,6 @@ public final class Constants {
     public static final boolean GRID_INCLUDE_EDGE = true;
 
     public static final String NO_THUMBNAIL_URL = "";
+    public static final String EXTRA_BOOK = "extra_book";
+
 }
