@@ -40,7 +40,7 @@ public class BookRepository {
     }
 
     public LiveData<List<BookEntry>> getFavoriteBooks() {
-        return null;
+        return mBookDao.loadAllBooks();
     }
 
     public LiveData<BookEntry> getFavoriteBookById(String bookId) {

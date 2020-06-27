@@ -74,14 +74,14 @@ public class FavoriteBookAdapter extends RecyclerView.Adapter<FavoriteBookAdapte
         }
 
         void bind(BookEntry favoriteBook) {
-
-            String thumbnail = "favoriteBook thumbnail"; //todo set the image thumbnail url
-
+            String thumbnail = favoriteBook.getThumbnailURL();
+            thumbnail = thumbnail.replaceFirst("^(http://)?(www\\.)?", "https://");
             Picasso.with(itemView.getContext())
                     .load(thumbnail)
+                    .error(R.drawable.ic_baseline_broken_image_24)
                     .into(mFavItemBinding.ivThumbnail);
 
-            mFavItemBinding.tvTitle.setText("favourite title"); //todo set the title
+            mFavItemBinding.tvTitle.setText(favoriteBook.getTitle());
         }
 
         @Override

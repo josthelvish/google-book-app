@@ -17,7 +17,7 @@
     <string name="pref_filter_by_default">all</string>
     <string name="pref_filter_by_favorites" translatable="false">favorites</string>
     <string name="pref_filter_by_label">Filter By</string>
-    <string name="pref_filter_by_label_all">All Android</string>
+    <string name="pref_filter_by_label_default">All Android</string>
     <string name="pref_filter_by_label_favorites">Favorites</string>
     <!--endregion-->
 
@@ -32,10 +32,12 @@
 
     <!--region Swipe Refresh messages-->
     <string name="snackbar_updated">Book list updated</string>
+    <string name="snackbar_added">Added to your favorites collection</string>
+    <string name="snackbar_removed">Removed from your favorites collection</string>
     <!--endregion-->
 
     <!--region Options menu -->
-    <string name="action_filter">Filter</string>
+    <string name="action_settings">Settings</string>
     <!--endregion-->
 
     <!--region Detail view -->

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <ListPreference
+        android:defaultValue="@string/pref_filter_by_default"
+        android:entries="@array/pref_filter_by_options"
+        android:entryValues="@array/pref_filter_by_values"
+        android:key="@string/pref_key_filter_by"
+        android:title="@string/pref_filter_by_label" />
+</PreferenceScreen>

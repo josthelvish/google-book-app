@@ -1,7 +1,10 @@
 package com.example.google_book_app.ui.detail;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
@@ -11,11 +14,14 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.google_book_app.R;
+import com.example.google_book_app.database.BookDatabase;
 import com.example.google_book_app.database.BookEntry;
 import com.example.google_book_app.databinding.ActivityDetailBinding;
 import com.example.google_book_app.domain.Book;
+import com.example.google_book_app.utils.AppThreadExecutors;
 import com.example.google_book_app.utils.DependenciesUtils;
 import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.snackbar.Snackbar;
 import com.squareup.picasso.Picasso;
 
 import static com.example.google_book_app.utils.Constants.EXTRA_BOOK;
@@ -26,12 +32,14 @@ public class DetailActivity extends AppCompatActivity {
     private Book mBook;
     private boolean mIsFavorite;
     private DetailViewModel mDetailViewModel;
+    private BookDatabase mBookDB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mDetailBinding = DataBindingUtil.setContentView(this, R.layout.activity_detail);
 
+        mBookDB = BookDatabase.getInstance(this);
         Intent intent = getIntent();
         if (intent != null) {
             if (intent.hasExtra(EXTRA_BOOK)) {
@@ -40,12 +48,13 @@ public class DetailActivity extends AppCompatActivity {
             }
         }
 
-        createViewModel(mBook.getId());
+        createViewModel();
         observeBookEntry();
         refreshUI();
+
     }
 
-    private void createViewModel(String bookId) {
+    private void createViewModel() {
         DetailViewModelFactory factory = DependenciesUtils.provideDetailViewModelFactory(
                 DetailActivity.this, mBook.getId());
         mDetailViewModel = new ViewModelProvider(this, factory).get(DetailViewModel.class);
@@ -64,6 +73,39 @@ public class DetailActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    public void onFavoriteClick(View view) {
+
+        final BookEntry bookEntry = covertToBookEntry();
+
+        if (!mIsFavorite) {
+            AppThreadExecutors.getInstance().diskIO().execute(new Runnable() {
+                @Override
+                public void run() {
+                    // todo change to repository
+                    mBookDB.bookDao().insertBook(bookEntry);
+                }
+            });
+
+            showSnackbarMessage(R.string.snackbar_added);
+        } else {
+            final BookEntry bookEntry2 = mDetailViewModel.getBookEntry().getValue();
+            AppThreadExecutors.getInstance().diskIO().execute(new Runnable() {
+                @Override
+                public void run() {
+
+                    mBookDB.bookDao().deleteBook(bookEntry2);
+                }
+            });
+
+            showSnackbarMessage(R.string.snackbar_removed);
+        }
+    }
+
+    private BookEntry covertToBookEntry() {
+        return new BookEntry(mBook.getId(), mBook.getTitle(), mBook.getSubtitle(), mBook.getAuthors(),
+                mBook.getDescription(), mBook.getBuyLink(), mBook.getThumbnailURL());
     }
 
     private void refreshUI() {
@@ -142,4 +184,15 @@ public class DetailActivity extends AppCompatActivity {
             mDetailBinding.tvDetailSubtitle.setText(subtitle);
         }
     }
+
+    private void showSnackbarMessage(int resourceMessageID) {
+        Snackbar snackbar = Snackbar.make(
+                mDetailBinding.coordinator, resourceMessageID, Snackbar.LENGTH_SHORT);
+        View sbView = snackbar.getView();
+        sbView.setBackgroundColor(Color.DKGRAY);
+        TextView textView = sbView.findViewById(com.google.android.material.R.id.snackbar_text);
+        textView.setTextColor(Color.WHITE);
+        snackbar.show();
+    }
+
 }

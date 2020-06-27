@@ -8,13 +8,15 @@ import androidx.room.Query;
 
 import java.util.List;
 
+import static androidx.room.OnConflictStrategy.REPLACE;
+
 @Dao
 public interface BookDao {
 
     @Query("SELECT * FROM book")
     LiveData<List<BookEntry>> loadAllBooks();
 
-    @Insert
+    @Insert(onConflict = REPLACE)
     void insertBook(BookEntry bookEntry);
 
     @Delete
