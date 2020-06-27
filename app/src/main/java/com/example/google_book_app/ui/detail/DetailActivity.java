@@ -2,7 +2,11 @@ package com.example.google_book_app.ui.detail;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
@@ -52,6 +56,29 @@ public class DetailActivity extends AppCompatActivity {
         observeBookEntry();
         refreshUI();
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        if (mBook.getBuyLink() != null) {
+            MenuInflater inflater = getMenuInflater();
+            inflater.inflate(R.menu.detail, menu);
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int itemId = item.getItemId();
+        switch (itemId) {
+            case R.id.action_buy:
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(mBook.getBuyLink()));
+                startActivity(i);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     private void createViewModel() {
