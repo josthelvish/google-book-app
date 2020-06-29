@@ -22,11 +22,12 @@ import com.example.google_book_app.database.BookDatabase;
 import com.example.google_book_app.database.BookEntry;
 import com.example.google_book_app.databinding.ActivityDetailBinding;
 import com.example.google_book_app.domain.Book;
-import com.example.google_book_app.utils.AppThreadExecutors;
 import com.example.google_book_app.utils.DependenciesUtils;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.snackbar.Snackbar;
 import com.squareup.picasso.Picasso;
+
+import timber.log.Timber;
 
 import static com.example.google_book_app.utils.Constants.EXTRA_BOOK;
 
@@ -48,14 +49,18 @@ public class DetailActivity extends AppCompatActivity {
         if (intent != null) {
             if (intent.hasExtra(EXTRA_BOOK)) {
                 Bundle b = intent.getBundleExtra(EXTRA_BOOK);
-                mBook = b.getParcelable(EXTRA_BOOK);
+                if (b != null) {
+                    mBook = b.getParcelable(EXTRA_BOOK);
+                } else {
+                    Timber.e("Extra Bundle has no book!");
+
+                }
             }
         }
 
         createViewModel();
         observeBookEntry();
         refreshUI();
-
     }
 
     @Override
@@ -70,15 +75,13 @@ public class DetailActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int itemId = item.getItemId();
-        switch (itemId) {
-            case R.id.action_buy:
-                Intent i = new Intent(Intent.ACTION_VIEW);
-                i.setData(Uri.parse(mBook.getBuyLink()));
-                startActivity(i);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        if (itemId == R.id.action_buy) {
+            Intent i = new Intent(Intent.ACTION_VIEW);
+            i.setData(Uri.parse(mBook.getBuyLink()));
+            startActivity(i);
+            return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 
     private void createViewModel() {
@@ -88,51 +91,34 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     private void observeBookEntry() {
-        mDetailViewModel.getBookEntry().observe(this, new Observer<BookEntry>() {
-            @Override
-            public void onChanged(@Nullable BookEntry bookEntry) {
-                if (mDetailViewModel.getBookEntry().getValue() == null) {
-                    mDetailBinding.fabFavorite.setImageResource(R.drawable.ic_baseline_favorite_border_24);
-                    mIsFavorite = false;
-                } else {
-                    mDetailBinding.fabFavorite.setImageResource(R.drawable.ic_baseline_favorite_24);
-                    mIsFavorite = true;
-                }
+        mDetailViewModel.getBookEntry().observe(this, bookEntry -> {
+            if (mDetailViewModel.getBookEntry().getValue() == null) {
+                mDetailBinding.fabFavorite.setImageResource(R.drawable.ic_baseline_favorite_border_24);
+                mIsFavorite = false;
+            } else {
+                mDetailBinding.fabFavorite.setImageResource(R.drawable.ic_baseline_favorite_24);
+                mIsFavorite = true;
             }
         });
     }
 
     public void onFavoriteClick(View view) {
 
-        final BookEntry bookEntry = covertToBookEntry();
-
+        BookEntry bookEntry = convertToBookEntry(mBook);
         if (!mIsFavorite) {
-            AppThreadExecutors.getInstance().diskIO().execute(new Runnable() {
-                @Override
-                public void run() {
-                    // todo change to repository
-                    mBookDB.bookDao().insertBook(bookEntry);
-                }
-            });
-
+            mDetailViewModel.addFavoriteBook(bookEntry);
             showSnackbarMessage(R.string.snackbar_added);
         } else {
-            final BookEntry bookEntry2 = mDetailViewModel.getBookEntry().getValue();
-            AppThreadExecutors.getInstance().diskIO().execute(new Runnable() {
-                @Override
-                public void run() {
-
-                    mBookDB.bookDao().deleteBook(bookEntry2);
-                }
-            });
-
+            BookEntry bookEntry2 = mDetailViewModel.getBookEntry().getValue();
+            mDetailViewModel.removeFavoriteBook(bookEntry2);
             showSnackbarMessage(R.string.snackbar_removed);
         }
+        mDetailViewModel.getBookEntry().getValue();
     }
 
-    private BookEntry covertToBookEntry() {
-        return new BookEntry(mBook.getId(), mBook.getTitle(), mBook.getSubtitle(), mBook.getAuthors(),
-                mBook.getDescription(), mBook.getBuyLink(), mBook.getThumbnailURL());
+    private BookEntry convertToBookEntry(Book book) {
+        return new BookEntry(book.getId(), book.getTitle(), book.getSubtitle(), book.getAuthors(),
+                book.getDescription(), book.getBuyLink(), book.getThumbnailURL());
     }
 
     private void refreshUI() {

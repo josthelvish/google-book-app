@@ -55,7 +55,11 @@ public class Book implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(mAuthors.length);
+        if (mAuthors != null) {
+            dest.writeInt(mAuthors.length);
+        } else {
+            dest.writeInt(0);
+        }
         dest.writeString(mId);
         dest.writeString(mTitle);
         dest.writeString(mSubtitle);

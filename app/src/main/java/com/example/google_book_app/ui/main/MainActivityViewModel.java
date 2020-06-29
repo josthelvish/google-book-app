@@ -9,13 +9,11 @@ import com.example.google_book_app.database.BookEntry;
 import com.example.google_book_app.domain.Book;
 import com.example.google_book_app.repository.BookDataSourceFactory;
 import com.example.google_book_app.repository.BookRepository;
+import com.example.google_book_app.utils.AppThreadExecutors;
 
 import java.util.List;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 
 import static com.example.google_book_app.utils.Constants.INITIAL_LOAD_SIZE_HINT;
-import static com.example.google_book_app.utils.Constants.NUMBER_OF_THREADS_THREE;
 import static com.example.google_book_app.utils.Constants.PAGE_SIZE;
 import static com.example.google_book_app.utils.Constants.PREFETCH_DISTANCE;
 
@@ -35,9 +33,8 @@ public class MainActivityViewModel extends ViewModel {
     }
 
     private void init(String mFilterListBy) {
-        Executor executor = Executors.newFixedThreadPool(NUMBER_OF_THREADS_THREE);
 
-        BookDataSourceFactory bookDataFactory = new BookDataSourceFactory(mFilterListBy);
+        BookDataSourceFactory bookDataFactory = new BookDataSourceFactory();
 
         PagedList.Config config = (new PagedList.Config.Builder())
                 .setEnablePlaceholders(false)
@@ -47,7 +44,7 @@ public class MainActivityViewModel extends ViewModel {
                 .build();
 
         mBookPagedList = new LivePagedListBuilder<>(bookDataFactory, config)
-                .setFetchExecutor(executor)
+                .setFetchExecutor(AppThreadExecutors.getInstance().networkIO())
                 .build();
     }
 

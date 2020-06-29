@@ -3,7 +3,8 @@ package com.example.google_book_app.database;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
-import androidx.room.TypeConverters;
+
+import java.util.Objects;
 
 @Entity(tableName = "book")
 public class BookEntry {
@@ -104,5 +105,24 @@ public class BookEntry {
 
     public void setThumbnailURL(String mThumbnailURL) {
         this.mThumbnailURL = mThumbnailURL;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        BookEntry bookEntry = (BookEntry) o;
+        return Objects.equals(bookId, bookEntry.bookId) &&
+                Objects.equals(mTitle, bookEntry.mTitle) &&
+                Objects.equals(mSubtitle, bookEntry.mSubtitle) &&
+                Objects.equals(mAuthors, bookEntry.mAuthors) &&
+                Objects.equals(mDescription, bookEntry.mDescription) &&
+                Objects.equals(mBuyLink, bookEntry.mBuyLink) &&
+                Objects.equals(mThumbnailURL, bookEntry.mThumbnailURL);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(bookId, mTitle, mSubtitle, mAuthors, mDescription, mBuyLink, mThumbnailURL);
     }
 }

@@ -25,11 +25,9 @@ import static com.example.google_book_app.utils.Constants.RESPONSE_CODE_API_STAT
 public class BookDataSource extends PageKeyedDataSource<Integer, Book> {
 
     private GoogleBookAPI mGoogleBookApi;
-    private String mFilterBy;
 
-    public BookDataSource(String filterBy) {
+    public BookDataSource() {
         mGoogleBookApi = RetrofitServiceController.getClient().create(GoogleBookAPI.class);
-        mFilterBy = filterBy;
     }
 
     @Override
